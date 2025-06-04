@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="javascript:history.back()" class="btn btn-outline-secondary mb-3">
+      ← Go Back
+    </a>
+
+  <h1 class="mb-4">KPI Summary</h1>
+
+
+  <div class="row">
+    {% for kpi in kpis %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ kpi.kpi }} (On Week {{ kpi.weeks }})</h5>
+            <p class="card-text">
+              <strong>Activity:</strong> {{ kpi.activity }}<br>
+              <strong>Baseline:</strong> {{ kpi.baseline }} |
+              <strong>Plan:</strong> {{ kpi.plan }}
+            </p>
+
+            {% with latest_detail=kpi.details.last %}
+              {% if latest_detail %}
+                {% if latest_detail.achievement >= kpi.plan %}
+                  <div class="card bg-success text-white p-3">
+                {% else %}
+                  <div class="card bg-danger text-white p-3">
+                {% endif %}
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <strong>Progress:</strong> {{ latest_detail.progress }}<br>
+                    <strong>Achievement:</strong> {{ latest_detail.achievement|floatformat:2 }}%<br>
+                    <strong>Date:</strong> {{ latest_detail.created_at|date:"Y-m-d H:i" }}
+                  </div>
+                  </div>
+              {% else %}
+                <div class="card bg-warning text-dark p-3">
+                  <strong>No progress data yet.</strong>
+                </div>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+    <div class="d-flex justify-content-end mb-3">
+      <a href="{% url 'export_kpi' %}" class="btn btn-success">
+        Export to Excel
+      </a>
+    </div><br><br>
+{% endblock %}

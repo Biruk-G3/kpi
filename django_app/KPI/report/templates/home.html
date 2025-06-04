@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white">
+      Dashboard
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <a href="{% url 'create_kpi' %}" class="btn btn-primary w-100">Create KPI</a>
+        </div>
+        <div class="col-md-4">
+          <a href="{% url 'add_progress' %}" class="btn btn-info w-100">Add Progress</a>
+        </div>
+        <div class="col-md-4">
+          <a href="{% url 'kpi_summary' %}" class="btn btn-success w-100">View KPI Summary</a>
+        </div><br><br>
+        <div class="col-md-4">
+          <a href="{% url 'export_kpi' %}" class="btn btn-warning w-100">Export to Excel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
